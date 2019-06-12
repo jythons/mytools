@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<head>
+	<title>小工具(多行字符串去重)</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+<body>
+	<div id="app">
+		<div>
+			<table border="0" cellpadding="0" cellspacing="0">
+				<tr>
+					<td>多个字符串去重(回车换行)</td>
+					<td></td>
+					<td>输入{{inputNum}}行，输出：{{outputNum}}行, 去除空行：{{nilRowNum}}, 去除重复行：{{uniqNum}}</td>
+				</tr>
+				<tr>
+					<td>
+						<textarea type="text" cols="80" rows="35" v-model="inputs" ></textarea>
+					</td>
+					<td>&nbsp;</td>
+					<td>
+						<textarea type="text" cols="80" rows="35" v-model="outputs" ></textarea>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+	</div>
+</body>
+</html>
+<script type="text/javascript">
+	var app = new Vue({
+		el: "#app",
+		data:{
+			inputs: '',
+			inputNum: '',
+			outputNum: '',
+			nilRowNum: '',
+			uniqNum: '',
+		},
+		computed: {
+			outputs () {
+				let strToArr = this.inputs.split('\n')
+				this.inputNum = strToArr.length
+				// console.log("str_to_arr=", strToArr)
+				let notNil = strToArr.filter(item => item)
+				// console.log("not_nil=",notNil)
+				this.nilRowNum = this.inputNum - notNil.length
+
+				let uniqArr = new Set(notNil)
+				// console.log("uniq_arr=", uniqArr)
+
+				var res =  Array.from(uniqArr);
+				// console.log("res=", res)
+				this.uniqNum = notNil.length - res.length
+				this.outputNum = res.length
+				return res.join('\n')
+			}
+		},
+		
+	});
+</script>
